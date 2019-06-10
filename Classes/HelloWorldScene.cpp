@@ -107,7 +107,7 @@ bool HelloWorld::init()
 	//ƒV[ƒ“ƒOƒ‰ƒt‚É‚Â‚È‚®
 	this->addChild(sprite);
 	//•\Ž¦À•W‚ðŽw’è
-	sprite->setPosition(Vec2(1000.0f, 600.0f));
+	sprite->setPosition(Vec2(1280-100, 720-100));
 	//‰ñ“]Šp‚ðŽw’èi45“xj
 	//sprite->setRotation(45.0f);
 	//Šg‘åk¬‚ðŽw’èi‰¡3”{Ac4”{j
@@ -152,6 +152,7 @@ void HelloWorld::update(float delta)
 	Vec2 pos = sprite->getPosition();
 	//À•W‚ðˆÚ“®‚³‚¹‚é
 	pos += Vec2(-1.0f, 0.0f);
+	//pos.x = -1.0f;‚±‚ê‚Å‚àOK
 	//ˆÚ“®Œã‚ÌÀ•W‚ð”½‰f
 	sprite->setPosition(pos);
 }
