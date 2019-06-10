@@ -107,7 +107,7 @@ bool HelloWorld::init()
 	//シーングラフにつなぐ
 	this->addChild(sprite);
 	//表示座標を指定
-	sprite->setPosition(Vec2(1280-100, 720-100));
+	sprite->setPosition(Vec2(1000, 600));
 	//回転角を指定（45度）
 	//sprite->setRotation(45.0f);
 	//拡大縮小を指定（横3倍、縦4倍）
@@ -122,10 +122,15 @@ bool HelloWorld::init()
 	//                        R     G     B
 	//sprite->setColor(Color3B(0xff, 0x00, 0x00));
 	//不透明度を設定
-	//sprite->setOpacity(0x80);
+	//sprite->setOpacity(0);
+	/*opacity = 255.0f;
+	sprite->setOpacity(opacity);*/
 
 	//updateが呼び出されるようにする
 	this->scheduleUpdate();
+
+	//左移動
+	state = 0;
 
     return true;
 }
@@ -146,13 +151,63 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 
 void HelloWorld::update(float delta)
 {
+	Vec2 pos;
+	switch (state)
+	{
+	case 0://左移動
+		//スプライトの現在座標を取得
+		pos = sprite->getPosition();
+		//座標を移動させる
+		pos += Vec2(-5.0f, 0.0f);
+		//pos.x = -1.0f;これでもOK
+		//移動後の座標を反映
+		sprite->setPosition(pos);
+		if (pos.x <= 100)
+		{
+			state = 1;//下移動に切り替え
+		}
+		break;
+	case 1://下移動
+		pos = sprite->getPosition();
+		pos += Vec2(0.0f, -5.0f);
+		sprite->setPosition(pos);
+		if (pos.y <= 100)
+		{
+			state = 2;//右移動
+		}
+		break;
+	case 2://右移動
+		pos = sprite->getPosition();
+		pos += Vec2(5.0f, 0.0f);
+		sprite->setPosition(pos);
+		if (pos.x >= 1100)
+		{
+			state = 3;//上移動に切り替え
+		}
+		break;
+	case 3://上移動
+		pos = sprite->getPosition();
+		pos += Vec2(0.0f, 5.0f);
+		sprite->setPosition(pos);
+		if (pos.y >= 600)
+		{
+			state = 0;//左移動に切り替え
+		}
+		break;
+	}
 	//ここに毎フレーム更新処理を書く
+	////0～255まで
+	////unsigned char opacity = sprite->getOpacity();
 
-	//スプライトの現在座標を取得
-	Vec2 pos = sprite->getPosition();
-	//座標を移動させる
-	pos += Vec2(-1.0f, 0.0f);
-	//pos.x = -1.0f;これでもOK
-	//移動後の座標を反映
-	sprite->setPosition(pos);
+	
+
+	//5秒間で255減らす
+	//300フレームで255減らす
+	//255を300回に分けて減らす
+	/*opacity -= 255.0f/300.0f;
+	if (opacity < 0.0f);
+	{
+		opacity = 0.0f;
+	}
+	sprite->setOpacity(opacity);*/
 }
