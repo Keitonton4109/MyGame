@@ -39,7 +39,7 @@ static void problemLoading(const char* filename)
     printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in HelloWorldScene.cpp\n");
 }
 
-// on "init" you need to initialize your instance
+//シーンの初期化 on "init" you need to initialize your instance
 bool HelloWorld::init()
 {
     //////////////////////////////
@@ -101,20 +101,32 @@ bool HelloWorld::init()
         this->addChild(label, 1);
     }
 
-    // add "HelloWorld" splash screen"
-    auto sprite = Sprite::create("HelloWorld.png");
-    if (sprite == nullptr)
-    {
-        problemLoading("'HelloWorld.png'");
-    }
-    else
-    {
-        // position the sprite on the center of the screen
-        sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
 
-        // add the sprite as a child to this layer
-        this->addChild(sprite, 0);
-    }
+	//テクスチャファイル名を指定して、スプライトを作成
+	sprite = Sprite::create("fire.png");
+	//シーングラフにつなぐ
+	this->addChild(sprite);
+	//表示座標を指定
+	sprite->setPosition(Vec2(1000.0f, 600.0f));
+	//回転角を指定（45度）
+	//sprite->setRotation(45.0f);
+	//拡大縮小を指定（横3倍、縦4倍）
+	//sprite->setScale(3.0f, 4.0f);
+	//左右反転
+	//sprite->setFlippedX(true);
+	//上下反転
+	//sprite->setFlippedY(true);
+	//非表示にする
+	//sprite->setVisible(false);
+	//色あいを設定
+	//                        R     G     B
+	//sprite->setColor(Color3B(0xff, 0x00, 0x00));
+	//不透明度を設定
+	//sprite->setOpacity(0x80);
+
+	//updateが呼び出されるようにする
+	this->scheduleUpdate();
+
     return true;
 }
 
@@ -130,4 +142,16 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
     //_eventDispatcher->dispatchEvent(&customEndEvent);
 
 
+}
+
+void HelloWorld::update(float delta)
+{
+	//ここに毎フレーム更新処理を書く
+
+	//スプライトの現在座標を取得
+	Vec2 pos = sprite->getPosition();
+	//座標を移動させる
+	pos += Vec2(-1.0f, 0.0f);
+	//移動後の座標を反映
+	sprite->setPosition(pos);
 }
