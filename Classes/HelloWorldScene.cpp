@@ -107,16 +107,20 @@ bool HelloWorld::init()
 
 	for(int i=0;i<10;i++)
 	{
+		float sx, sy;
+		sx = (float)rand()/RAND_MAX*visibleSize.width;
+		sy = (float)rand()/RAND_MAX*visibleSize.height;
+
 		sprite[i] = Sprite::create("fire.png");
 		this->addChild(sprite[i]);
-		sprite[i]->setPosition(Vec2(100*i, visibleSize.height / 2.0f));
+		sprite[i]->setPosition(Vec2(sx,sy));
 		sprite[i]->setScale(0.1f);
 
-		/*float mx, my;
-		mx = (float)rand()/RAND_MAX*500;
-		my = (float)rand()/RAND_MAX*500;*/
+		float ex, ey;
+		ex = (float)rand() / RAND_MAX * visibleSize.width;
+		ey = (float)rand() / RAND_MAX * visibleSize.height;
 
-		JumpBy*action1 = JumpBy::create(1.0f, Vec2(300, 0),300,1);
+		MoveTo*action1 = MoveTo::create(1.0f, Vec2(ex,ey));
 		sprite[i]->runAction(action1);
 	}
 
