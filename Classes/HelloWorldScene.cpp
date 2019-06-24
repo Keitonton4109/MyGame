@@ -101,7 +101,7 @@ bool HelloWorld::init()
         this->addChild(label, 1);
     }
 
-
+	//spriteの生成
 	//テクスチャファイル名を指定して、スプライトを作成
 	sprite = Sprite::create("fire.png");
 	//シーングラフにつなぐ
@@ -109,11 +109,24 @@ bool HelloWorld::init()
 	//表示座標を指定
 	sprite->setPosition(Vec2(visibleSize.width/2.0f,visibleSize.height/2.0f));
 	//ノードを指定した座標に移動させる
+	//Action1の生成
 	MoveBy*action1 = MoveBy::create(1.0f, Vec2(400, 200));
+	sprite->runAction(action1);
+
+	//spriteの生成
+	//テクスチャファイル名を指定して、スプライトを作成
+	sprite2 = Sprite::create("water.png");
+	//シーングラフにつなぐ
+	this->addChild(sprite2);
+	//表示座標を指定
+	sprite2->setPosition(Vec2(300, visibleSize.height / 2.0f));
+	//ノードを指定した座標に移動させる
+	//Action2の生成
+	MoveBy*action2 = MoveBy::create(1.0f, Vec2(400, 200));
+	sprite2->runAction(action2);
 	//アクションに対して、イージングを付けたアクションを生成する
-	EaseInOut*action2 = EaseInOut::create(action1, 2.0f);
+	//EaseInOut*action2 = EaseInOut::create(action1, 2.0f);
 	//イージング付きアクションの実行
-	sprite->runAction(action2);
 	//ノードを拡大/縮小する
 	//ScaleBy*action1 = ScaleBy::create(1.0f, 5.0f);
 	//ノードをジャンプさせる
@@ -127,7 +140,7 @@ bool HelloWorld::init()
 	//ノードをフェードイン/フェードアウトさせる
 	//sprite->setOpacity(0);
 	//FadeIn*action1 = FadeIn::create(1.0f);
-	sprite->runAction(action1);
+	//sprite->runAction(action1);
 	//sprite->setScale(5.0f);
 	//sprite->setAnchorPoint(Vec2(0, 1));
 	//sprite->setTextureRect(Rect(64, 0, 32, 32));
