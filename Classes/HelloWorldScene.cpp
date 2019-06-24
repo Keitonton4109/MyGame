@@ -108,6 +108,19 @@ bool HelloWorld::init()
 	this->addChild(sprite);
 	//表示座標を指定
 	sprite->setPosition(Vec2(visibleSize.width/2.0f,visibleSize.height/2.0f));
+
+	//MoveBy*action1 = MoveBy::create(1.0f, Vec2(200, 100));
+	//ScaleBy*action1 = ScaleBy::create(1.0f, 5.0f);
+	//JumpTo*action1 = JumpTo::create(1.0f, Vec2(200, 100), 500.0f, 6);
+	////ベジェ曲線
+	//ccBezierConfig conf;
+	//conf.controlPoint_1 = Vec2(800, 700);
+	//conf.controlPoint_2 = Vec2(1000, 700);
+	//conf.endPosition = Vec2(1200, 360);
+	//BezierTo*action1 = BezierTo::create(2.0f, conf);
+	sprite->setOpacity(0);
+	FadeIn*action1 = FadeIn::create(1.0f);
+	sprite->runAction(action1);
 	//sprite->setScale(5.0f);
 	//sprite->setAnchorPoint(Vec2(0, 1));
 	//sprite->setTextureRect(Rect(64, 0, 32, 32));
