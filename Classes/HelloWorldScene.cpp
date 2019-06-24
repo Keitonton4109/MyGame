@@ -105,7 +105,7 @@ bool HelloWorld::init()
 	//Random r=new Random();
 	srand(time(nullptr));
 
-	for(int i=0;i<5;i++)
+	/*for(int i=0;i<5;i++)
 	{
 		sprite[i] = Sprite::create("fire.png");
 		this->addChild(sprite[i]);
@@ -117,29 +117,29 @@ bool HelloWorld::init()
 
 		MoveBy*action1 = MoveBy::create(1.0f, Vec2(mx, my));
 		sprite[i]->runAction(action1);
-	}
+	}*/
 
-	////sprite1の生成
-	////テクスチャファイル名を指定して、スプライトを作成
-	//sprite = Sprite::create("fire.png");
-	////シーングラフにつなぐ
-	//this->addChild(sprite);
-	////表示座標を指定
-	//sprite->setPosition(Vec2(visibleSize.width/2.0f,visibleSize.height/2.0f));
-	////ノードを指定した座標に移動させる
+	//sprite1の生成
+	//テクスチャファイル名を指定して、スプライトを作成
+	sprite = Sprite::create("fire.png");
+	//シーングラフにつなぐ
+	this->addChild(sprite);
+	//表示座標を指定
+	sprite->setPosition(Vec2(visibleSize.width/2.0f,visibleSize.height/2.0f));
+	//ノードを指定した座標に移動させる
 
-	////sprite2の生成
-	////テクスチャファイル名を指定して、スプライトを作成
-	//sprite2 = Sprite::create("water.png");
-	////シーングラフにつなぐ
-	//this->addChild(sprite2);
-	////表示座標を指定
-	//sprite2->setPosition(Vec2(300, visibleSize.height / 2.0f));
+	//sprite2の生成
+	//テクスチャファイル名を指定して、スプライトを作成
+	sprite2 = Sprite::create("water.png");
+	//シーングラフにつなぐ
+	this->addChild(sprite2);
+	//表示座標を指定
+	sprite2->setPosition(Vec2(900, visibleSize.height / 2.0f));
 
-	////Action1の生成
-	//MoveBy*action1 = MoveBy::create(1.0f, Vec2(400, 200));
-	//sprite->runAction(action1->clone());
-	//sprite2->runAction(action1->clone());
+	//Action1の生成
+	JumpBy*action1 = JumpBy::create(1.0f, Vec2(300, 0),300,1);
+	sprite->runAction(action1->clone());
+	sprite2->runAction(action1->clone());
 
 	////Action2の生成
 	//MoveBy*action2 = MoveBy::create(1.0f, Vec2(400, 200));
