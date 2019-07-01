@@ -101,95 +101,19 @@ bool HelloWorld::init()
         this->addChild(label, 1);
     }
 
-	//乱数の初期化
-	//Random r=new Random();
-	srand(time(nullptr));
+	Sprite*spr = Sprite::create("HelloWorld.png");
+	this->addChild(spr);
 
-	for(int i=0;i<10;i++)
-	{
-		float sx, sy;
-		sx = (float)rand()/RAND_MAX*visibleSize.width;
-		sy = (float)rand()/RAND_MAX*visibleSize.height;
+	//アクション1の作成
+	MoveTo*action1 = MoveTo::create(2.0f, Vec2(600.0f, 300.0f));
+	//アクション2の作成
+	JumpTo*action2 = JumpTo::create(1.0f, Vec2(200.0f, 200.0f), 300.0f, 2);
 
-		sprite[i] = Sprite::create("fire.png");
-		this->addChild(sprite[i]);
-		sprite[i]->setPosition(Vec2(sx,sy));
-		sprite[i]->setScale(0.1f);
-
-		float ex, ey;
-		ex = (float)rand() / RAND_MAX * visibleSize.width;
-		ey = (float)rand() / RAND_MAX * visibleSize.height;
-
-		MoveTo*action1 = MoveTo::create(1.0f, Vec2(ex,ey));
-		sprite[i]->runAction(action1);
-	}
-
-	////sprite1の生成
-	////テクスチャファイル名を指定して、スプライトを作成
-	//sprite = Sprite::create("fire.png");
-	////シーングラフにつなぐ
-	//this->addChild(sprite);
-	////表示座標を指定
-	//sprite->setPosition(Vec2(visibleSize.width/2.0f,visibleSize.height/2.0f));
-	////ノードを指定した座標に移動させる
-
-	////sprite2の生成
-	////テクスチャファイル名を指定して、スプライトを作成
-	//sprite2 = Sprite::create("water.png");
-	////シーングラフにつなぐ
-	//this->addChild(sprite2);
-	////表示座標を指定
-	//sprite2->setPosition(Vec2(900, visibleSize.height / 2.0f));
-
-	////Action1の生成
-	//JumpBy*action1 = JumpBy::create(1.0f, Vec2(300, 0),300,1);
-	//sprite->runAction(action1->clone());
-	//sprite2->runAction(action1->clone());
-
-	////Action2の生成
-	//MoveBy*action2 = MoveBy::create(1.0f, Vec2(400, 200));
-	//sprite2->runAction(action2);
-
-
-	//アクションに対して、イージングを付けたアクションを生成する
-	//EaseInOut*action2 = EaseInOut::create(action1, 2.0f);
-	//イージング付きアクションの実行
-	//ノードを拡大/縮小する
-	//ScaleBy*action1 = ScaleBy::create(1.0f, 5.0f);
-	//ノードをジャンプさせる
-	//JumpTo*action1 = JumpTo::create(1.0f, Vec2(200, 100), 500.0f, 6);
-	////ベジェ曲線
-	//ccBezierConfig conf;
-	//conf.controlPoint_1 = Vec2(800, 700);
-	//conf.controlPoint_2 = Vec2(1000, 700);
-	//conf.endPosition = Vec2(1200, 360);
-	//BezierTo*action1 = BezierTo::create(2.0f, conf);
-	//ノードをフェードイン/フェードアウトさせる
-	//sprite->setOpacity(0);
-	//FadeIn*action1 = FadeIn::create(1.0f);
-	//sprite->runAction(action1);
-	//sprite->setScale(5.0f);
-	//sprite->setAnchorPoint(Vec2(0, 1));
-	//sprite->setTextureRect(Rect(64, 0, 32, 32));
-	//回転角を指定（45度）
-	/*sprite->setRotation(135.0f);*/
-	//拡大縮小を指定（横3倍、縦4倍）
-	//sprite->setScale(3.0f, 4.0f);
-	//左右反転
-	//sprite->setFlippedX(true);
-	//上下反転
-	//sprite->setFlippedY(true);
-	//非表示にする
-	//sprite->setVisible(false);
-	//色あいを設定
-	//                        R  G  B
-	//sprite->setColor(Color3B( 0, 0, 0));
-	//sprite->setColor(Color3B( 0, 0,255));
-
-	//不透明度を設定//
-	//sprite->setOpacity(0);
-	/*opacity = 255.0f;
-	sprite->setOpacity(opacity);*/
+	TintTo*tintTo = TintTo::create(1.0f, Color3B(255, 255, 0));
+	//連続アクションの作成
+	Sequence*action3 = Sequence::create(action1, action2, tintTo,nullptr);
+	//連続アクションの実行
+	spr->runAction(action3);
 
 	//updateが呼び出されるようにする
 	//this->scheduleUpdate();
