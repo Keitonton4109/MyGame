@@ -110,8 +110,9 @@ bool HelloWorld::init()
 	MoveBy*moveBy3 = MoveBy::create(5.0f, Vec2(900.0f, 0.0f));
 	MoveBy*moveBy4 = MoveBy::create(5.0f, Vec2(0.0f, 400.0f));
 	Sequence*seq = Sequence::create(moveBy, moveBy2, moveBy3, moveBy4, nullptr);
+	RepeatForever*repF = RepeatForever::create(seq);
 
-	spr->runAction(seq);
+	spr->runAction(repF);
 	/*FadeOut*fadeout = FadeOut::create(5.0f);
 	FadeIn*fadein = FadeIn::create(5.0f);
 	Spawn*spn = Spawn::create(moveBy, fadeout, nullptr);
