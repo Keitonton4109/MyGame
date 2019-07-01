@@ -107,11 +107,15 @@ bool HelloWorld::init()
 
 	MoveBy*moveBy = MoveBy::create(5.0f, Vec2(-900.0f, 0.0f));
 	MoveBy*moveBy2 = MoveBy::create(5.0f, Vec2(900.0f, 0.0f));
+	FadeOut*fadeout = FadeOut::create(5.0f);
+	FadeIn*fadein = FadeIn::create(5.0f);
 
 	//DelayTime*delay = DelayTime::create(1.0f);
 	//JumpBy*jumpBy = JumpBy::create(0.5f, Vec2(100.0f, 100.0f),100.0f,1);
 	////Repeat*rep= Repeat::create(jumpBy,5);
-	Sequence*seq = Sequence::create(moveBy, moveBy2,nullptr);
+	Spawn*spn = Spawn::create(moveBy, fadeout, nullptr);
+	Spawn*spn2 = Spawn::create(fadein, moveBy2, nullptr);
+	Sequence*seq = Sequence::create(spn, spn2,nullptr);
 
 	spr->runAction(seq);
 
