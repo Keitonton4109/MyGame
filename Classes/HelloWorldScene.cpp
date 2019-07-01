@@ -103,13 +103,15 @@ bool HelloWorld::init()
 
 	Sprite*spr = Sprite::create("HelloWorld.png");
 	this->addChild(spr);
+	spr->setPosition(Vec2(1100.0f, 600.0f));
 
-	MoveTo*moveTo = MoveTo::create(0.5f, Vec2(600.0f, 300.0f));
+	MoveBy*moveBy = MoveBy::create(5.0f, Vec2(-900.0f, 0.0f));
+	MoveBy*moveBy2 = MoveBy::create(5.0f, Vec2(900.0f, 0.0f));
 
-	DelayTime*delay = DelayTime::create(1.0f);
-	JumpBy*jumpBy = JumpBy::create(0.5f, Vec2(100.0f, 100.0f),100.0f,1);
-	//Repeat*rep= Repeat::create(jumpBy,5);
-	Sequence*seq = Sequence::create(moveTo, delay,jumpBy, nullptr);
+	//DelayTime*delay = DelayTime::create(1.0f);
+	//JumpBy*jumpBy = JumpBy::create(0.5f, Vec2(100.0f, 100.0f),100.0f,1);
+	////Repeat*rep= Repeat::create(jumpBy,5);
+	Sequence*seq = Sequence::create(moveBy, moveBy2,nullptr);
 
 	spr->runAction(seq);
 
