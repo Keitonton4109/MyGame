@@ -24,6 +24,7 @@
 
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
+#include "AudioEngine.h"
 
 USING_NS_CC;
 
@@ -101,10 +102,11 @@ bool HelloWorld::init()
         this->addChild(label, 1);
     }
 
-	
+	//サウンド再生 trueを付けるとループ　
+	audioID=experimental::AudioEngine::play2d("testse.mp3",true);
 
 	//updateが呼び出されるようにする
-	//this->scheduleUpdate();
+	this->scheduleUpdate();
 
     return true;
 }
@@ -125,5 +127,19 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 
 void HelloWorld::update(float delta)
 {
+	//経過時間を取得
+	unsigned int total=
+		Director::getInstance()->getTotalFrames();
 
+	if (total == 60)//1秒後
+	{
+		//サウンド終了
+		//experimental::AudioEngine::stop(audioID);
+		//サウンド一時停止
+		experimental::AudioEngine::pause(audioID);
+	}
+	if (total = 120)//2秒後
+	{
+		experimental::AudioEngine::resume(audioID);
+	}
 }
