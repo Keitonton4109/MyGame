@@ -36,6 +36,9 @@ public:
 
 	//ŠÖ”‚ÌéŒ¾
 	void update(float delta)override;
+
+	//©ìŠÖ”
+	void myFunction();
     
     // a selector callback
     void menuCloseCallback(cocos2d::Ref* pSender);

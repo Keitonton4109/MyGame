@@ -102,6 +102,13 @@ bool HelloWorld::init()
         this->addChild(label, 1);
     }
 
+	DelayTime*delay = DelayTime::create(1.0f);
+	CallFunc*callFunc = CallFunc::create(
+		CC_CALLBACK_0(HelloWorld::myFunction, this));
+	Sequence*seq = Sequence::create(delay, callFunc, nullptr);
+
+	this->runAction(seq);
+
 	//サウンド再生 trueを付けるとループ　
 	audioID=experimental::AudioEngine::play2d("testse.mp3",true);
 
@@ -142,4 +149,11 @@ void HelloWorld::update(float delta)
 	{
 		experimental::AudioEngine::resume(audioID);
 	}
+}
+
+void HelloWorld::myFunction()
+{
+	Sprite*spr = Sprite::create("HelloWorld.png");
+	this->addChild(spr);
+	spr->setPosition(Vec2(500, 500));
 }
