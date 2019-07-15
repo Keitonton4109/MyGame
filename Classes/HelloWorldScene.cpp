@@ -87,27 +87,147 @@ bool HelloWorld::init()
     // add a label shows "Hello World"
     // create and initialize a label
 
-    auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
-    if (label == nullptr)
-    {
-        problemLoading("'fonts/Marker Felt.ttf'");
-    }
-    else
-    {
-        // position the label on the center of the screen
-        label->setPosition(Vec2(origin.x + visibleSize.width/2,
-                                origin.y + visibleSize.height - label->getContentSize().height));
+    //auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
+    //if (label == nullptr)
+    //{
+    //    problemLoading("'fonts/Marker Felt.ttf'");
+    //}
+    //else
+    //{
+    //    // position the label on the center of the screen
+    //    label->setPosition(Vec2(origin.x + visibleSize.width/2,
+    //                            origin.y + visibleSize.height - label->getContentSize().height));
 
-        // add the label as a child to this layer
-        this->addChild(label, 1);
-    }
+    //    // add the label as a child to this layer
+    //    this->addChild(label, 1);
+    //}
 
-	DelayTime*delay = DelayTime::create(1.0f);
-	CallFunc*callFunc = CallFunc::create(
-		CC_CALLBACK_0(HelloWorld::myFunction, this));
-	Sequence*seq = Sequence::create(delay, callFunc, nullptr);
+	//バックグラウンド
+	Sprite*sprb = Sprite::create("background.png");
+	//カービィイラスト読み込み
+	Sprite*spr = Sprite::create("kirby2.png");
+	//ワドルディイラスト読み込み
+	Sprite*spr2 = Sprite::create("wad2.png");
+	//吸い込みイラスト読み込み
+	Sprite*spr3 = Sprite::create("torune-do.png");
+	//デデデイラスト読み込み
+	Sprite*spr4 = Sprite::create("ddd.png");
+	//スターイラスト読み込み
+	Sprite*spr5 = Sprite::create("ster.png");
 
-	this->runAction(seq);
+	this->addChild(sprb);
+	this->addChild(spr);
+	this->addChild(spr2);
+	this->addChild(spr3);
+	this->addChild(spr4);
+	this->addChild(spr5);
+
+	//バックグラウンド初期位置
+	sprb->setPosition(Vec2(640.0f, 480.0f));
+	sprb->setScale(3.0f, 4.0f);
+	//カービィ初期位置
+	spr->setPosition(Vec2(1300.0f, 400.0f));
+	//ワドルディ初期位置
+	spr2->setPosition(Vec2(-100.0f, 400.0f));
+	//吸い込み初期位置
+	spr3->setPosition(Vec2(795.0f, 405.0f));
+	//吸い込み角度
+	spr3->setRotation(270.0f);
+	//吸い込み画縮小
+	spr3->setScale(0.5f);
+	//デデデ初期位置
+	spr4->setPosition(Vec2(-150.0f, 400.0f));
+	//スター初期位置
+	spr5->setPosition(Vec2(600.0f, 400.0f));
+	
+	//カービィ初期位置から左へ移動
+	MoveBy*moveBy1 = MoveBy::create(5.0f, Vec2(-300.0f, 0.0f));
+	//位置についたらワドルディが位置につくまで待機
+	DelayTime*delayK1 = DelayTime::create(5.0f);
+	//カービィその場で3回ジャンプ
+	JumpBy*jumpBy1 = JumpBy::create(1.5f, Vec2(0.0f, 0.0f), 100.0f, 3);
+	//吸い込み画が出現するまで待機
+	DelayTime*delayK2 = DelayTime::create(1.0f);
+	//カービィ、吸い込み画と共にワドルディに初期位置より近づく
+	MoveBy*moveK1 = MoveBy::create(5.0f, Vec2(-400.0f, 0.0f));
+	//デデデを倒すまで待機
+	DelayTime*delayK3 = DelayTime::create(12.5f);
+	//デデデを倒した後ジャンプ
+	JumpBy*jumpK1 = JumpBy::create(1.5f, Vec2(0.0f, 0.0f), 100.0f, 1);
+	//デデデを倒した後一回転
+	RotateBy*rotateK1 = RotateBy::create(1.5f, 360.0f);
+	//上記2つのアクションを同時に実行
+	Spawn*spawnK1 = Spawn::create(jumpK1, rotateK1, nullptr);
+	//上記を3回繰り返し
+	Repeat*repeatK1 = Repeat::create(spawnK1, 3);
+	//カービィ順番にアクション
+	Sequence*seq = Sequence::create(moveBy1,delayK1, jumpBy1,delayK2,moveK1,delayK3,repeatK1,nullptr);
+	//ワドルディ、カービィが位置につくまで待機
+	DelayTime*delayW1 = DelayTime::create(5.0f);
+	//ワドルディ初期位置から右へ移動
+	MoveBy*moveBy2 = MoveBy::create(5.0f, Vec2(300.0f, 0.0f));
+	//ワドルディ、カービィと吸い込み画が近づいてくるまで待機
+	DelayTime*delayW2 = DelayTime::create(7.5f);
+	//ワドルディ吸い込まれて回転する
+	RotateBy*rotateW1 = RotateBy::create(3.0f, 1080.0f);
+	//ワドルディ吸い込まれて消滅する
+	FadeOut*fadeoutW1 = FadeOut::create(2.0f);
+	//ワドルディ吸い込まれて移動する
+	MoveBy*moveW1 = MoveBy::create(3.0f, Vec2(400.0f, 0.0f));
+	//上記3つの吸い込まれアクションを同時実行
+	Spawn*spawnW1 = Spawn::create(rotateW1,fadeoutW1 , moveW1, nullptr);
+	//ワドルディ順番にアクション
+	Sequence*seq2 = Sequence::create(delayW1, moveBy2,delayW2,spawnW1, nullptr);
+	//吸い込みを最初は出さない
+	Hide*hide1 = Hide::create();
+	//吸い込み待機
+	DelayTime*delayT1 = DelayTime::create(12.5f);
+	//吸い込み出現
+	Show*show1 = Show::create();
+	//吸い込み画、カービィと共にワドルディに初期位置より近づく
+	MoveBy*moveT1 = MoveBy::create(5.0f,Vec2(-400.0f,0.0f));
+	//ワドルディが吸い込まれるまで待機
+	DelayTime*delayT2 = DelayTime::create(4.0f);
+	//吸い込み画を削除
+	FadeOut*fadeoutT1 = FadeOut::create(1.0f);
+	//吸い込み順番にアクション
+	Sequence*seq3 = Sequence::create(hide1,delayT1,show1,moveT1,delayT2,fadeoutT1,nullptr);
+	//デデデ出現待機
+	DelayTime*delayD1 = DelayTime::create(21.5f);
+	//デデデ初期位置から右へ移動
+	MoveBy*moveD1 = MoveBy::create(5.0f, Vec2(300.0f, 0.0f));
+	//デデデ攻撃を食らうまで待機
+	DelayTime*delayD2 = DelayTime::create(1.5f);
+	//デデデ攻撃を受けて回転
+	RotateBy*rotateD1 = RotateBy::create(2.0f, 1080.0f);
+	//デデデ攻撃を受けて画面外に退場
+	MoveBy*moveD2 = MoveBy::create(2.0f, Vec2(-300.0f, 0.0f));
+	//デデデ上記2つのアクションを同時実行
+	Spawn*spawnD1 = Spawn::create(rotateD1, moveD2, nullptr);
+	//デデデ順番にアクション
+	Sequence*seq4 = Sequence::create(delayD1, moveD1,delayD2,spawnD1, nullptr);
+	//デデデ登場まで26.5f
+	//スターを最初出現させない
+	Hide*hide2 = Hide::create();
+	//スター出現待機時間
+	DelayTime*delayS1 = DelayTime::create(26.5f);
+	//スター出現
+	Show*show2 = Show::create();
+	//スター回転
+	RotateBy*rotateS1 = RotateBy::create(3.0f, 1080.0f);
+	//スター移動
+	MoveBy*moveS1 = MoveBy::create(3.0f, Vec2(-800.0f, 0.0f));
+	//上記3つを同時に行う
+	Spawn*spawnS1 = Spawn::create(show2, rotateS1, moveS1, nullptr);
+	//スターを順番にアクション
+	Sequence*seq5 = Sequence::create(hide2, delayS1, spawnS1, nullptr);
+	
+
+	spr->runAction(seq);
+	spr2->runAction(seq2);
+	spr3->runAction(seq3);
+	spr4->runAction(seq4);
+	spr5->runAction(seq5);
 
 	//サウンド再生 trueを付けるとループ　
 	audioID=experimental::AudioEngine::play2d("testse.mp3",true);
@@ -134,26 +254,6 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 
 void HelloWorld::update(float delta)
 {
-	//経過時間を取得
-	unsigned int total=
-		Director::getInstance()->getTotalFrames();
+	
 
-	if (total == 60)//1秒後
-	{
-		//サウンド終了
-		//experimental::AudioEngine::stop(audioID);
-		//サウンド一時停止
-		experimental::AudioEngine::pause(audioID);
-	}
-	if (total = 120)//2秒後
-	{
-		experimental::AudioEngine::resume(audioID);
-	}
-}
-
-void HelloWorld::myFunction()
-{
-	Sprite*spr = Sprite::create("HelloWorld.png");
-	this->addChild(spr);
-	spr->setPosition(Vec2(500, 500));
 }
