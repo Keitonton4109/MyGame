@@ -114,6 +114,12 @@ bool HelloWorld::init()
 	Sprite*spr4 = Sprite::create("ddd.png");
 	//スターイラスト読み込み
 	Sprite*spr5 = Sprite::create("ster.png");
+	//チリーイラスト読み込み
+	Sprite*spr6 = Sprite::create("tiri.png");
+	//アイスイラスト読み込み
+	Sprite*spr7 = Sprite::create("ice.png");
+	//アイスカービィイラスト読み込み
+	Sprite*spr8 = Sprite::create("icekirby.png");
 
 	this->addChild(sprb);
 	this->addChild(spr);
@@ -121,53 +127,74 @@ bool HelloWorld::init()
 	this->addChild(spr3);
 	this->addChild(spr4);
 	this->addChild(spr5);
+	this->addChild(spr6);
+	this->addChild(spr7);
+	this->addChild(spr8);
 
 	//バックグラウンド初期位置
 	sprb->setPosition(Vec2(640.0f, 480.0f));
-	sprb->setScale(3.0f, 4.0f);
+	sprb->setScale(3.0f, 2.0f);
 	//カービィ初期位置
-	spr->setPosition(Vec2(1300.0f, 400.0f));
+	spr->setPosition(Vec2(1300.0f, 250.0f));
 	//ワドルディ初期位置
-	spr2->setPosition(Vec2(-100.0f, 400.0f));
+	spr2->setPosition(Vec2(-100.0f, 250.0f));
 	//吸い込み初期位置
-	spr3->setPosition(Vec2(795.0f, 405.0f));
+	spr3->setPosition(Vec2(795.0f, 255.0f));
 	//吸い込み角度
 	spr3->setRotation(270.0f);
 	//吸い込み画縮小
 	spr3->setScale(0.5f);
 	//デデデ初期位置
-	spr4->setPosition(Vec2(-150.0f, 400.0f));
+	spr4->setPosition(Vec2(-150.0f, 250.0f));
 	//スター初期位置
-	spr5->setPosition(Vec2(600.0f, 400.0f));
+	spr5->setPosition(Vec2(600.0f, 250.0f));
+	//チリー初期位置
+	spr6->setPosition(Vec2(-100.0f, 250.0f));
+	//アイス初期位置
+	spr7->setPosition(Vec2(600.0f, 250.0f));
+	//アイスカービィ初期位置
+	spr8->setPosition(Vec2(590.0f, 250.0f));
 	
 	//カービィ初期位置から左へ移動
-	MoveBy*moveBy1 = MoveBy::create(5.0f, Vec2(-300.0f, 0.0f));
+	MoveBy*moveBy1 = MoveBy::create(3.0f, Vec2(-300.0f, 0.0f));
 	//位置についたらワドルディが位置につくまで待機
-	DelayTime*delayK1 = DelayTime::create(5.0f);
+	DelayTime*delayK1 = DelayTime::create(3.0f);
 	//カービィその場で3回ジャンプ
 	JumpBy*jumpBy1 = JumpBy::create(1.5f, Vec2(0.0f, 0.0f), 100.0f, 3);
 	//吸い込み画が出現するまで待機
 	DelayTime*delayK2 = DelayTime::create(1.0f);
 	//カービィ、吸い込み画と共にワドルディに初期位置より近づく
-	MoveBy*moveK1 = MoveBy::create(5.0f, Vec2(-400.0f, 0.0f));
+	MoveBy*moveK1 = MoveBy::create(3.0f, Vec2(-400.0f, 0.0f));
 	//デデデを倒すまで待機
 	DelayTime*delayK3 = DelayTime::create(12.5f);
 	//デデデを倒した後ジャンプ
-	JumpBy*jumpK1 = JumpBy::create(1.5f, Vec2(0.0f, 0.0f), 100.0f, 1);
+	JumpBy*jumpK1 = JumpBy::create(1.5f, Vec2(180.0f, 0.0f), 100.0f, 1);
 	//デデデを倒した後一回転
 	RotateBy*rotateK1 = RotateBy::create(1.5f, 360.0f);
 	//上記2つのアクションを同時に実行
 	Spawn*spawnK1 = Spawn::create(jumpK1, rotateK1, nullptr);
+	//上記アクション実行時1秒間の間を入れる
+	DelayTime*delayK4 = DelayTime::create(0.3f);
+	//上記2つを順番に行う
+	Sequence*seqK2 = Sequence::create(spawnK1, delayK4, nullptr);
 	//上記を3回繰り返し
-	Repeat*repeatK1 = Repeat::create(spawnK1, 3);
+	Repeat*repeatK1 = Repeat::create(seqK2, 3);
+	//チリーが出現するまで待機
+	DelayTime*delayK5 = DelayTime::create(3.6f);
+	//吸い込み画と共にチリーに詰める
+	MoveBy*moveK2 = MoveBy::create(3.0f, Vec2(-550.0f, 0.0f));
+    //デデデ登場まで待機
+	DelayTime*delayK6 = DelayTime::create(2.0f);
+	//アイスカービィに進化するためフェードアウト
+	FadeOut*fadeoutK1 = FadeOut::create(1.0f);
 	//カービィ順番にアクション
-	Sequence*seq = Sequence::create(moveBy1,delayK1, jumpBy1,delayK2,moveK1,delayK3,repeatK1,nullptr);
+	Sequence*seq = Sequence::create(moveBy1,delayK1, jumpBy1,delayK2,moveK1,delayK3,repeatK1,delayK5,moveK2,delayK6,fadeoutK1,nullptr);
 	//ワドルディ、カービィが位置につくまで待機
-	DelayTime*delayW1 = DelayTime::create(5.0f);
+	DelayTime*delayW1 = DelayTime::create(3.0f);
 	//ワドルディ初期位置から右へ移動
-	MoveBy*moveBy2 = MoveBy::create(5.0f, Vec2(300.0f, 0.0f));
+	MoveBy*moveBy2 = MoveBy::create(3.0f, Vec2(300.0f, 0.0f));
 	//ワドルディ、カービィと吸い込み画が近づいてくるまで待機
-	DelayTime*delayW2 = DelayTime::create(7.5f);
+	DelayTime*delayW2 = DelayTime::create(5.5f);
 	//ワドルディ吸い込まれて回転する
 	RotateBy*rotateW1 = RotateBy::create(3.0f, 1080.0f);
 	//ワドルディ吸い込まれて消滅する
@@ -181,21 +208,35 @@ bool HelloWorld::init()
 	//吸い込みを最初は出さない
 	Hide*hide1 = Hide::create();
 	//吸い込み待機
-	DelayTime*delayT1 = DelayTime::create(12.5f);
+	DelayTime*delayT1 = DelayTime::create(8.5f);
 	//吸い込み出現
 	Show*show1 = Show::create();
 	//吸い込み画、カービィと共にワドルディに初期位置より近づく
-	MoveBy*moveT1 = MoveBy::create(5.0f,Vec2(-400.0f,0.0f));
+	MoveBy*moveT1 = MoveBy::create(3.0f,Vec2(-400.0f,0.0f));
 	//ワドルディが吸い込まれるまで待機
 	DelayTime*delayT2 = DelayTime::create(4.0f);
 	//吸い込み画を削除
 	FadeOut*fadeoutT1 = FadeOut::create(1.0f);
+	//吸い込み画を後ろへ戻す
+	MoveBy*moveT2 = MoveBy::create(1.0f, Vec2(550.0f, 0.0f));
+	//吸い込み画再出現待機
+	DelayTime*delayT3 = DelayTime::create(15.5f);
+	//吸い込み画出現
+	FadeIn*fadeinT1 = FadeIn::create(1.0f);
+	//カービィと共にチリーへ詰める
+	MoveBy*moveT3 = MoveBy::create(3.0f, Vec2(-550.0f, 0.0f));
+	//上記2つを同時実行
+	Spawn*spawnT1 = Spawn::create(fadeinT1, moveT3, nullptr);
+	//チリー吸い込まれるまで待機
+	DelayTime*delayT4 = DelayTime::create(3.0f);
+	//吸い込み画再削除
+	FadeOut*fadeoutT2 = FadeOut::create(1.0f);
 	//吸い込み順番にアクション
-	Sequence*seq3 = Sequence::create(hide1,delayT1,show1,moveT1,delayT2,fadeoutT1,nullptr);
+	Sequence*seq3 = Sequence::create(hide1,delayT1,show1,moveT1,delayT2,fadeoutT1,moveT2,delayT3,spawnT1,delayT4,fadeoutT2,nullptr);
 	//デデデ出現待機
-	DelayTime*delayD1 = DelayTime::create(21.5f);
+	DelayTime*delayD1 = DelayTime::create(16.5f);
 	//デデデ初期位置から右へ移動
-	MoveBy*moveD1 = MoveBy::create(5.0f, Vec2(300.0f, 0.0f));
+	MoveBy*moveD1 = MoveBy::create(3.0f, Vec2(300.0f, 0.0f));
 	//デデデ攻撃を食らうまで待機
 	DelayTime*delayD2 = DelayTime::create(1.5f);
 	//デデデ攻撃を受けて回転
@@ -204,13 +245,24 @@ bool HelloWorld::init()
 	MoveBy*moveD2 = MoveBy::create(2.0f, Vec2(-300.0f, 0.0f));
 	//デデデ上記2つのアクションを同時実行
 	Spawn*spawnD1 = Spawn::create(rotateD1, moveD2, nullptr);
+	//デデデ再出場待機
+	DelayTime*delayD3 = DelayTime::create(16.0f);
+	//デデデ再出陣
+	MoveBy*moveD3 = MoveBy::create(3.0f, Vec2(300.0f, 0.0f));
+	//アイス攻撃がくるまで待機
+	DelayTime*delayD4 = DelayTime::create(0.65f);
+	//デデデアイス攻撃を受けて回転
+	RotateBy*rotateD2 = RotateBy::create(2.0f, 1080.0f);
+	//デデデ攻撃を受けて画面外に退場
+	MoveBy*moveD4 = MoveBy::create(2.0f, Vec2(-300.0f, 0.0f));
+	//デデデ上記2つのアクションを同時実行
+	Spawn*spawnD2 = Spawn::create(rotateD2, moveD4, nullptr);
 	//デデデ順番にアクション
-	Sequence*seq4 = Sequence::create(delayD1, moveD1,delayD2,spawnD1, nullptr);
-	//デデデ登場まで26.5f
+	Sequence*seq4 = Sequence::create(delayD1, moveD1,delayD2,spawnD1, delayD3, moveD3,delayD4,spawnD2, nullptr);
 	//スターを最初出現させない
 	Hide*hide2 = Hide::create();
 	//スター出現待機時間
-	DelayTime*delayS1 = DelayTime::create(26.5f);
+	DelayTime*delayS1 = DelayTime::create(19.5f);
 	//スター出現
 	Show*show2 = Show::create();
 	//スター回転
@@ -221,6 +273,52 @@ bool HelloWorld::init()
 	Spawn*spawnS1 = Spawn::create(show2, rotateS1, moveS1, nullptr);
 	//スターを順番にアクション
 	Sequence*seq5 = Sequence::create(hide2, delayS1, spawnS1, nullptr);
+	//チリー出番まで待機
+	DelayTime*delayTI1 = DelayTime::create(30.0f);
+	//チリー初期位置から右へ移動
+	MoveBy*moveTI1 = MoveBy::create(3.0f, Vec2(300.0f, 0.0f));
+	//カービィと吸い込み画が詰めてくるまで待機
+	DelayTime*delayTI2 = DelayTime::create(3.0f);
+	//チリー吸い込まれて回転する
+	RotateBy*rotateTI1 = RotateBy::create(3.0f, 1080.0f);
+	//チリーィ吸い込まれて消滅する
+	FadeOut*fadeoutTI1 = FadeOut::create(2.0f);
+	//チリー吸い込まれて移動する
+	MoveBy*moveTI2 = MoveBy::create(3.0f, Vec2(400.0f, 0.0f));
+	//上記3つの吸い込まれアクションを同時実行
+	Spawn*spawnTI1 = Spawn::create(rotateTI1, fadeoutTI1, moveTI1, nullptr);
+	//チリー順番にアクション
+	Sequence*seq6 = Sequence::create(delayTI1, moveTI1,delayTI2,spawnTI1, nullptr);
+	//アイスを最初出現させない
+	Hide*hideA1 = Hide::create();
+	//アイス出現待機時間
+	DelayTime*delayA1 = DelayTime::create(41.0f);
+	//アイス出現
+	Show*showA1 = Show::create();
+	//アイス回転
+	RotateBy*rotateA1 = RotateBy::create(3.0f, 1080.0f);
+	//アイス移動
+	MoveBy*moveA1 = MoveBy::create(3.0f, Vec2(-800.0f, 0.0f));
+	//上記3つを同時に行う
+	Spawn*spawnA1 = Spawn::create(showA1, rotateA1, moveA1, nullptr);
+	//アイスを順番にアクション
+	Sequence*seq7 = Sequence::create(hideA1, delayA1, spawnA1, nullptr);
+	//39
+	//アイスカービィ最初に出現させない
+	FadeOut*fadeoutICK1 = FadeOut::create(0.1f);
+	//アイスカービィ待機
+	DelayTime*delayICK1 = DelayTime::create(39.0f);
+	//アイスカービィ出現
+	FadeIn*fadeinICK1 = FadeIn::create(1.0f);
+	//アイスカービィジャンプ
+	JumpBy*jumpICK1 = JumpBy::create(1.5f, Vec2(0.0f, 0.0f), 100.0f, 3);
+	//デデデを倒すまで待機
+	DelayTime*delayICK2 = DelayTime::create(5.0f);
+	//アイスカービィ順番にアクション
+	Sequence*seq8 = Sequence::create(fadeoutICK1, delayICK1, fadeinICK1,delayICK2, jumpICK1, nullptr);
+
+
+	//デデデ再登場前41．0ｆ　登場後44．0f；
 	
 
 	spr->runAction(seq);
@@ -228,9 +326,12 @@ bool HelloWorld::init()
 	spr3->runAction(seq3);
 	spr4->runAction(seq4);
 	spr5->runAction(seq5);
+	spr6->runAction(seq6);
+	spr7->runAction(seq7);
+	spr8->runAction(seq8);
 
 	//サウンド再生 trueを付けるとループ　
-	audioID=experimental::AudioEngine::play2d("testse.mp3",true);
+	audioID=experimental::AudioEngine::play2d("BGM30.mp3",true);
 
 	//updateが呼び出されるようにする
 	this->scheduleUpdate();
